@@ -13,10 +13,13 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(errorMiddleware);
+// mount the routers
+
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
-app.use(errorMiddleware);
 // Ready for our first route
 app.get("/", (req, res) => {
   res.send("Welcome to Subscription Tracker API!");

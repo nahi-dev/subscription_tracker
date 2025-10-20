@@ -25,7 +25,7 @@ subscriptionRouter.delete("/:id", (req, res) => {
     body: { title: "Delete subscription" },
   });
 });
-subscriptionRouter.get("/user/id", (req, res) => {
+subscriptionRouter.get("/users/:id", (req, res) => {
   res.send({
     body: { title: "Get all user subscription" },
   });
