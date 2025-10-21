@@ -4,6 +4,7 @@ import { PORT } from "./config/env.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
+import workflowRouter from "./routes/wokflow.routes.js";
 import connectToDatabase from "./database/mongodb.js";
 import errorMiddleware from "./middleware/error.middleware.js";
 import cookieParser from "cookie-parser";
@@ -12,27 +13,18 @@ import arcjetMiddleware from "./middleware/arcjet.middleware.js";
 // use the user router for all user related routes
 // initialize the app and call it as a function
 const app = express();
-app.use((req, res, next) => {
-  console.log("🟢 Basic middleware hit for:", req.method, req.url);
-  next();
-});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use((req, res, next) => {
-  console.log("🟡 Before arcjet middleware");
-  next();
-});
+
 app.use(arcjetMiddleware);
-app.use((req, res, next) => {
-  console.log("🟢 After arcjet middleware");
-  next();
-});
 
 // mount the routers
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("api/v1/workflows", workflowRouter);
 app.use(errorMiddleware);
 // Ready for our first route
 app.get("/", (req, res) => {

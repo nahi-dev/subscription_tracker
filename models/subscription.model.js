@@ -66,6 +66,7 @@ const subscriptionSchema = new mongoose.Schema(
       },
     },
     user: {
+      // "user":"userId"
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
