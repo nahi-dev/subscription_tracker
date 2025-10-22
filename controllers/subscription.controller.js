@@ -1,4 +1,4 @@
-import { workflowClientInstance } from "../config/upstash.js";
+import { workflowClient } from "../config/upstash.js";
 import Subscription from "../models/subscription.model.js";
 import { SERVER_URL } from "../config/env.js";
 
@@ -9,11 +9,10 @@ export const createSubscription = async (req, res, next) => {
       user: req.user._id,
     });
 
-    const workflowResponse = await workflowClientInstance.trigger({
+    const workflowResponse = await workflowClient.trigger({
       url: `${SERVER_URL}/api/v1/workflows/subscription/reminder`,
-      body: { subscriptionId: subscription._id.toString() },
+      body: { subscriptionId: subscription._id },
     });
-
     // Store workflowRunId in database
     await Subscription.findByIdAndUpdate(subscription._id, {
       workflowRunId: workflowResponse.workflowRunId,
